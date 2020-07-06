@@ -8,7 +8,7 @@ lockbench-c: libmutlock-c lockbench
 	cd lockbench; make;
 	cd lockbench/script; ./create_machine_conf.sh 
 
-splash3-c: splash3
+splash3-c: splash3 myscript
 	cd splash3/codes; make;
 	
 splash3:

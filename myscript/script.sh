@@ -1,17 +1,17 @@
 #!/bin/bash
 
-if [ ! $# -eq 3 ]; then
-	echo ./script NumOfSockets NumOfCoresPerSocket NumOfThreadsPerCore
+if [ ! $# -eq 2 ]; then
+	echo ./script.sh NumOfSockets NumOfCoresPerSocket
 	exit 1
 fi
 
 #from command line I need # of sockets, # of cores per socket and # of threads per core
 NUM_SOCKETS=$1
 NUM_CORES=$2
-NUM_THREADS=$3
 
 #to execute likwid-perfctr i need msr
-if [ ! -d "/dev/cpu/*/msr" ]; then
+CHECK_MSR="/dev/cpu/0/msr"
+if [ ! -d "$CHECK_MSR" ]; then
 	sudo modprobe msr
 	sudo chmod +rw /dev/cpu/*/msr
 fi
@@ -36,13 +36,10 @@ cd $INPUT_DIR
 INPUT_DIR=`pwd`
 cd $MDIR
 
-#THREADS="1 2 3 4"
-(( END_THREADS = $NUM_THREADS * $NUM_CORES ))
-#echo $END_THREADS
+(( END_THREADS = 2 * $NUM_CORES ))
 THREADS=`seq 1 $END_THREADS`
 
 (( END_SOCKETS = $NUM_SOCKETS - 1 ))
-#echo $END_SOCKETS
 SOCKETS=`seq 0 $END_SOCKETS`
 
 COMPILE=0
@@ -120,3 +117,7 @@ if [ $EXECUTE -eq 1 ]; then
 		done
 	done
 fi
+
+./data.sh $END_THREADS
+
+exit
