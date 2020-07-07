@@ -15,7 +15,8 @@ bench = bench[:bench.find(".")]+"threads \n"
 r.write(bench)
 
 first_line=""
-cpi=""
+cpi="| "
+ipc="| "
 energy=""
 power=""
 n=0
@@ -25,7 +26,10 @@ for l in f.readlines():
         l=l.strip("|").strip().split("|")
         n=len(l)-1
         for i in range(1,len(l)):
-            cpi=cpi+l[i].strip()+" "
+            if len(l[i].strip()) > 0:
+                cpi=cpi+l[i].strip()+" | "
+                inv_cpi=1.0/(float(l[i].strip()))
+                ipc=ipc+str(inv_cpi)+" | "
     elif "Energy [J]" in l and "Energy [J] STAT" not in l:
         l=l.strip("|").strip().split("|")
         energy=energy+l[1].strip()+" "
@@ -41,6 +45,7 @@ for l in f.readlines():
         
 r.write(first_line+"\n")
 r.write("CPI "+cpi+"\n")
+r.write("IPC "+ipc+"\n")
 r.write("Energy "+energy+"\n")
 r.write("Power "+power+"\n\n")
 

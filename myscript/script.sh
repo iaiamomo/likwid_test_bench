@@ -54,12 +54,12 @@ OVERWRITE=1
 
 PAR_RAYTRACE="-pPROCESS -m64 -a400 $INPUT_DIR/raytrace/inputs/car.env"
 PAR_RADIOSITY="-p PROCESS -bf 0.0008 -room -batch" 
-PAR_VOLREND="PROCESS $INPUT_DIR/volrend/inputs/head 200" #MODIFICATA 200
+PAR_VOLREND="PROCESS $INPUT_DIR/volrend/inputs/head 8" #MODIFICATA 200
 PAR_WATER_NSQUARED="$INPUT_DIR/water-nsquared/inputs/parsec_native" 
 PAR_WATER_SPATIAL="$INPUT_DIR/water-spatial/inputs/parsec_native"
 PAR_BARNES="$INPUT_DIR/barnes/inputs/parsec_native"
 PAR_FMM="$INPUT_DIR/fmm/inputs/parsec_native"
-PAR_OCEAN="-n2050 -pPROCESS -e1e-07 -r20000 -t28800"  #MODIFICATA -n2050
+PAR_OCEAN="-n258 -pPROCESS -e1e-07 -r20000 -t28800"  #MODIFICATA -n2050
 
 GREP_RAYTRACE="TIMING STATISTICS MEASURED"
 GREP_RADIOSITY="Elem(hierarchical)/Elem(uniform)"
