@@ -1,10 +1,16 @@
-BENCHS="RAYTRACE RADIOSITY" #VOLREND WATER-NSQUARED WATER-SPATIAL BARNES FMM CHOLESKY OCEAN-CONTIGUOUS-PARTITIONS OCEAN-NON-CONTIGUOUS-PARTITIONS"
+#!/bin/bash
+
+#BENCHS="RAYTRACE RADIOSITY VOLREND WATER-NSQUARED WATER-SPATIAL BARNES FMM CHOLESKY OCEAN-CONTIGUOUS-PARTITIONS" #OCEAN-NON-CONTIGUOUS-PARTITIONS"
+BENCHS="RAYTRACE RADIOSITY VOLREND"
 PERF_CTRS="CLOCK ENERGY"
 
 FOLDER="likwid-output"
 
-THREADS=$1
+(( THREADS = $1 + 1 ))
 THREADS=`seq 1 $THREADS`
+
+RUNS=$2
+RUNS=`seq 0 $RUNS`
 
 if [ -f "clock.txt" ]; then
 	echo "" > clock.txt
@@ -24,14 +30,17 @@ do
 	do
 		PC=`echo "${pc,,}"`
 		DIR=./$FOLDER/$pc/$b
-		for t in $THREADS
+		for r in $RUNS
 		do
-			FILE=$DIR/$b-$t.txt
-			if [ $pc == "CLOCK" ]; then
-				python collect_clock.py $FILE $PC.txt
-			else
-				python collect_energy.py $FILE $PC.txt
-			fi
+			for t in $THREADS
+			do
+				FILE=$DIR/$b-$r-$t.txt
+				if [ $pc == "CLOCK" ]; then
+					python collect_clock.py $FILE $PC.txt
+				else
+					python collect_energy.py $FILE $PC.txt
+				fi
+			done
 		done
 	done
 done 

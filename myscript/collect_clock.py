@@ -46,7 +46,7 @@ for l in f.readlines():
 r.write(first_line+"\n")
 r.write("CPI "+cpi+"\n")
 r.write("IPC "+ipc+"\n")
-r.write("Energy "+energy+"\n")
-r.write("Power "+power+"\n\n")
+r.write("Energy [J] "+energy+"\n")
+r.write("Power [W] "+power+"\n\n")
 
 r.close()

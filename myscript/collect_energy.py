@@ -19,6 +19,8 @@ cpi="| "
 ipc="| "
 energy=""
 power=""
+energy_pp0=""
+power_pp0=""
 energy_dram=""
 power_dram=""
 temperature="| "
@@ -39,6 +41,12 @@ for l in f.readlines():
     elif "Power [W]" in l and "Power [W] STAT" not in l:
         l=l.strip("|").strip().split("|")
         power=power+l[1].strip()+" "
+    elif "Energy PP0 [J]" in l and "Energy PP0 [J] STAT" not in l:
+        l=l.strip("|").strip().split("|")
+        energy_pp0=energy_pp0+l[1].strip()+" "
+    elif "Power PP0 [W]" in l and "Power PP0 [W] STAT" not in l:
+        l=l.strip("|").strip().split("|")
+        power_pp0=power_pp0+l[1].strip()+" "
     elif "Energy DRAM [J]" in l and "Energy DRAM [J] STAT" not in l:
         l=l.strip("|").strip().split("|")
         energy_dram=energy_dram+l[1].strip()+" "
@@ -60,10 +68,12 @@ for l in f.readlines():
 r.write(first_line+"\n")
 r.write("CPI "+cpi+"\n")
 r.write("IPC "+ipc+"\n")
-r.write("Energy "+energy+"\n")
-r.write("Power "+power+"\n")
-r.write("Energy DRAM "+energy_dram+"\n")
-r.write("Power DRAM "+power_dram+"\n")
+r.write("Energy [J] "+energy+"\n")
+r.write("Power [W] "+power+"\n")
+r.write("Energy PP0 [J] "+energy_pp0+"\n")
+r.write("Power PP0 [W] "+power_pp0+"\n")
+r.write("Energy DRAM [J] "+energy_dram+"\n")
+r.write("Power DRAM [W] "+power_dram+"\n")
 r.write("Temperature "+temperature+"\n\n")
 
 r.close()
