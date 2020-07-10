@@ -72,109 +72,106 @@ if [ $COMPILE -eq 1 ]; then
 	make clean-bin;
 fi
 
-PIN=N:
 
 if [ $EXECUTE -eq 1 ]; then
 	for r in $RUNS
 	do
-		for s in $SOCKETS
+		PIN=N:
+		for t in $THREADS
 		do
-			for t in $THREADS
-			do
+			if [ $PIN == N: ] ; then
+				PIN=$PIN$t
+			else
+				PIN=$PIN,$t
+			fi
 			
-				if [ $PIN == N: ] ; then
-					PIN=$PIN$t
-				else
-					PIN=$PIN,$t
+			for b in $BENCHS
+			do
+				nb=${APPS}/$b		#../splash3/codes/apps/benchmark
+				DIR=`dirname "$nb"`		#execute dirname
+				FILE=`basename $nb`		#execute basename
+				SUFF=`python -c "print '-'+'$b'.split('/')[1].upper().replace('_', '-') if 'ocean' in '$DIR' else ''"`
+				PAR=`echo $FILE | tr '-' '_'`  	#substitute - with _
+				PARV=`eval echo '$'PAR_$PAR`  #eval calculate before '$'PAR_$PAR -> accede ai parametri di ogni bench
+				GREP=`eval echo '$'GREP_$PAR`
+				N_THREAD_BENCH=2
+				PARV=${PARV//PROCESS/$N_THREAD_BENCH}
+				(( THR = $t + 1 ))
+				FILECLOCK=$MDIR/$FOLDER/CLOCK/$FILE$SUFF/$FILE$SUFF-$r-$THR.txt
+				FILEENERGY=$MDIR/$FOLDER/ENERGY/$FILE$SUFF/$FILE$SUFF-$r-$THR.txt
+				mkdir -p $MDIR/$FOLDER/CLOCK/$FILE$SUFF
+				mkdir -p $MDIR/$FOLDER/ENERGY/$FILE$SUFF
+				cd $DIR
+				echo $FILECLOCK
+				echo $FILEENERGY
+				
+				if [ $OVERWRITE = "1" ] ; then
+					echo "" > $FILECLOCK
+					echo "" > $FILEENERGY
 				fi
 				
-				for b in $BENCHS
+				while [ ! -f  $FILECLOCK ] || [ $(grep -c "$GREP" $FILECLOCK) -eq 0 ]
 				do
-					nb=${APPS}/$b		#../splash3/codes/apps/benchmark
-					DIR=`dirname "$nb"`		#execute dirname
-					FILE=`basename $nb`		#execute basename
-					SUFF=`python -c "print '-'+'$b'.split('/')[1].upper().replace('_', '-') if 'ocean' in '$DIR' else ''"`
-					PAR=`echo $FILE | tr '-' '_'`  	#substitute - with _
-					PARV=`eval echo '$'PAR_$PAR`  #eval calculate before '$'PAR_$PAR -> accede ai parametri di ogni bench
-					GREP=`eval echo '$'GREP_$PAR`
-					(( PROC = $t + 1 ))
-					PARV=${PARV//PROCESS/$PROC}
-					FILECLOCK=$MDIR/$FOLDER/CLOCK/$FILE$SUFF/$FILE$SUFF-$r-$PROC.txt
-					FILEENERGY=$MDIR/$FOLDER/ENERGY/$FILE$SUFF/$FILE$SUFF-$r-$PROC.txt
-					mkdir -p $MDIR/$FOLDER/CLOCK/$FILE$SUFF
-					mkdir -p $MDIR/$FOLDER/ENERGY/$FILE$SUFF
-					cd $DIR
-					echo $FILECLOCK
-					echo $FILEENERGY
-					
-					if [ $OVERWRITE = "1" ] ; then
-						echo "" > $FILECLOCK
-						echo "" > $FILEENERGY
+					if [ "PAR_$PAR" == "PAR_WATER_NSQUARED" ] || [ "PAR_$PAR" == "PAR_WATER_SPATIAL" ]; then
+						head -n2 $PARV > $INPUT_DIR/${FILE}tmp-splash
+						val=`tail -n1 $PARV | cut -d' ' -f2`
+						echo $t $val >> $INPUT_DIR/${FILE}tmp-splash
+						#echo $CMDPATH/lib$l.sh ./$FILE "<" $PARV
+						{ timeout $TIMEOUT /usr/bin/time  likwid-perfctr -C $PIN -g CLOCK -f ./$FILE < $PARV; } &> $FILECLOCK
+						rm $INPUT_DIR/${FILE}tmp-splash
+					elif [ "PAR_$PAR" == "PAR_BARNES" ]; then
+						head -n11 $PARV > $INPUT_DIR/${FILE}tmp-splash
+						echo $t >> $INPUT_DIR/${FILE}tmp-splash
+						#echo $CMDPATH/lib$l.sh ./$FILE "<" $PARV
+						{ timeout $TIMEOUT /usr/bin/time  likwid-perfctr -C $PIN -g CLOCK -f ./$FILE < $PARV; } &> $FILECLOCK
+						rm $INPUT_DIR/${FILE}tmp-splash
+					elif [ "PAR_$PAR" == "PAR_FMM" ]; then
+						head -n4 $PARV > $INPUT_DIR/${FILE}tmp-splash
+						echo $t >> $INPUT_DIR/${FILE}tmp-splash
+						tail -n4 $PARV >> $INPUT_DIR/${FILE}tmp-splash
+						#echo $CMDPATH/lib$l.sh ./$FILE "<" $PARV
+						{ timeout $TIMEOUT /usr/bin/time  likwid-perfctr -C $PIN -g CLOCK -f ./$FILE < $PARV; } &> $FILECLOCK
+						rm $INPUT_DIR/${FILE}tmp-splash
+					else
+						#echo $CMDPATH/lib$l.sh ./$FILE $PARV
+						{ timeout $TIMEOUT /usr/bin/time  likwid-perfctr -C $PIN -g CLOCK -f ./$FILE $PARV; }  &> $FILECLOCK
 					fi
-					
-					while [ ! -f  $FILECLOCK ] || [ $(grep -c "$GREP" $FILECLOCK) -eq 0 ]
-					do
-						if [ "PAR_$PAR" == "PAR_WATER_NSQUARED" ] || [ "PAR_$PAR" == "PAR_WATER_SPATIAL" ]; then
-							head -n2 $PARV > $INPUT_DIR/${FILE}tmp-splash
-							val=`tail -n1 $PARV | cut -d' ' -f2`
-							echo $t $val >> $INPUT_DIR/${FILE}tmp-splash
-							#echo $CMDPATH/lib$l.sh ./$FILE "<" $PARV
-							{ timeout $TIMEOUT /usr/bin/time  likwid-perfctr -C $PIN -g CLOCK -f ./$FILE < $PARV; } &> $FILECLOCK
-							rm $INPUT_DIR/${FILE}tmp-splash
-						elif [ "PAR_$PAR" == "PAR_BARNES" ]; then
-							head -n11 $PARV > $INPUT_DIR/${FILE}tmp-splash
-							echo $t >> $INPUT_DIR/${FILE}tmp-splash
-							#echo $CMDPATH/lib$l.sh ./$FILE "<" $PARV
-							{ timeout $TIMEOUT /usr/bin/time  likwid-perfctr -C $PIN -g CLOCK -f ./$FILE < $PARV; } &> $FILECLOCK
-							rm $INPUT_DIR/${FILE}tmp-splash
-						elif [ "PAR_$PAR" == "PAR_FMM" ]; then
-							head -n4 $PARV > $INPUT_DIR/${FILE}tmp-splash
-							echo $t >> $INPUT_DIR/${FILE}tmp-splash
-							tail -n4 $PARV >> $INPUT_DIR/${FILE}tmp-splash
-							#echo $CMDPATH/lib$l.sh ./$FILE "<" $PARV
-							{ timeout $TIMEOUT /usr/bin/time  likwid-perfctr -C $PIN -g CLOCK -f ./$FILE < $PARV; } &> $FILECLOCK
-							rm $INPUT_DIR/${FILE}tmp-splash
-						else
-							#echo $CMDPATH/lib$l.sh ./$FILE $PARV
-							{ timeout $TIMEOUT /usr/bin/time  likwid-perfctr -C $PIN -g CLOCK -f ./$FILE $PARV; }  &> $FILECLOCK
-						fi
-					done
-					
-					while [ ! -f  $FILEENERGY ] || [ $(grep -c "$GREP" $FILEENERGY) -eq 0 ]
-					do
-						if [ "PAR_$PAR" == "PAR_WATER_NSQUARED" ] || [ "PAR_$PAR" == "PAR_WATER_SPATIAL" ]; then
-							head -n2 $PARV > $INPUT_DIR/${FILE}tmp-splash
-							val=`tail -n1 $PARV | cut -d' ' -f2`
-							echo $t $val >> $INPUT_DIR/${FILE}tmp-splash
-							#echo $CMDPATH/lib$l.sh ./$FILE "<" $PARV
-							{ timeout $TIMEOUT /usr/bin/time  likwid-perfctr -C $PIN -g ENERGY -f ./$FILE < $PARV; } &> $FILEENERGY
-							rm $INPUT_DIR/${FILE}tmp-splash
-						elif [ "PAR_$PAR" == "PAR_BARNES" ]; then
-							head -n11 $PARV > $INPUT_DIR/${FILE}tmp-splash
-							echo $t >> $INPUT_DIR/${FILE}tmp-splash
-							#echo $CMDPATH/lib$l.sh ./$FILE "<" $PARV
-							{ timeout $TIMEOUT /usr/bin/time  likwid-perfctr -C $PIN -g ENERGY -f ./$FILE < $PARV; } &> $FILEENERGY
-							rm $INPUT_DIR/${FILE}tmp-splash
-						elif [ "PAR_$PAR" == "PAR_FMM" ]; then
-							head -n4 $PARV > $INPUT_DIR/${FILE}tmp-splash
-							echo $t >> $INPUT_DIR/${FILE}tmp-splash
-							tail -n4 $PARV >> $INPUT_DIR/${FILE}tmp-splash
-							#echo $CMDPATH/lib$l.sh ./$FILE "<" $PARV
-							{ timeout $TIMEOUT /usr/bin/time  likwid-perfctr -C $PIN -g ENERGY -f ./$FILE < $PARV; } &> $FILEENERGY
-							rm $INPUT_DIR/${FILE}tmp-splash
-						else
-							#echo $CMDPATH/lib$l.sh ./$FILE $PARV
-							{ timeout $TIMEOUT /usr/bin/time  likwid-perfctr -C $PIN -g ENERGY -f ./$FILE $PARV; }  &> $FILEENERGY
-						fi
-					done
-					
-					cd $MDIR
 				done
+				
+				while [ ! -f  $FILEENERGY ] || [ $(grep -c "$GREP" $FILEENERGY) -eq 0 ]
+				do
+					if [ "PAR_$PAR" == "PAR_WATER_NSQUARED" ] || [ "PAR_$PAR" == "PAR_WATER_SPATIAL" ]; then
+						head -n2 $PARV > $INPUT_DIR/${FILE}tmp-splash
+						val=`tail -n1 $PARV | cut -d' ' -f2`
+						echo $t $val >> $INPUT_DIR/${FILE}tmp-splash
+						#echo $CMDPATH/lib$l.sh ./$FILE "<" $PARV
+						{ timeout $TIMEOUT /usr/bin/time  likwid-perfctr -C $PIN -g ENERGY -f ./$FILE < $PARV; } &> $FILEENERGY
+						rm $INPUT_DIR/${FILE}tmp-splash
+					elif [ "PAR_$PAR" == "PAR_BARNES" ]; then
+						head -n11 $PARV > $INPUT_DIR/${FILE}tmp-splash
+						echo $t >> $INPUT_DIR/${FILE}tmp-splash
+						#echo $CMDPATH/lib$l.sh ./$FILE "<" $PARV
+						{ timeout $TIMEOUT /usr/bin/time  likwid-perfctr -C $PIN -g ENERGY -f ./$FILE < $PARV; } &> $FILEENERGY
+						rm $INPUT_DIR/${FILE}tmp-splash
+					elif [ "PAR_$PAR" == "PAR_FMM" ]; then
+						head -n4 $PARV > $INPUT_DIR/${FILE}tmp-splash
+						echo $t >> $INPUT_DIR/${FILE}tmp-splash
+						tail -n4 $PARV >> $INPUT_DIR/${FILE}tmp-splash
+						#echo $CMDPATH/lib$l.sh ./$FILE "<" $PARV
+						{ timeout $TIMEOUT /usr/bin/time  likwid-perfctr -C $PIN -g ENERGY -f ./$FILE < $PARV; } &> $FILEENERGY
+						rm $INPUT_DIR/${FILE}tmp-splash
+					else
+						#echo $CMDPATH/lib$l.sh ./$FILE $PARV
+						{ timeout $TIMEOUT /usr/bin/time  likwid-perfctr -C $PIN -g ENERGY -f ./$FILE $PARV; }  &> $FILEENERGY
+					fi
+				done
+				
+				cd $MDIR
 			done
 		done
 	done
 fi
 
-./data.sh $END_THREADS $END_RUNS
+./data.sh $TOT_THREADS $TOT_RUNS
 
 exit

@@ -3,16 +3,16 @@
 COMPILE=0
 EXECUTE=1
 OVERWRITE=1
-TIMEOUT=1m
+TIMEOUT=5m
 
 NUM_SOCKETS=1
 NUM_CORES=2
 
-(( END_THREADS = (2 * $NUM_CORES) - 1 ))	#3
-THREADS=`seq 0 $END_THREADS`				#0,1,2,3
+#core list - LIKWID PIN
+(( TOT_THREADS = (2 * $NUM_CORES) - 1 ))	#3
+#TOT_THREADS=4
+THREADS=`seq 0 $TOT_THREADS`				#0,1,2,3
 
-(( END_SOCKETS = $NUM_SOCKETS - 1 ))		#0
-SOCKETS=`seq 0 $END_SOCKETS`				#0
-
-END_RUNS=0									#0
-RUNS=`seq 0 $END_RUNS`						#0
+#number of runs
+TOT_RUNS=2									#0
+RUNS=`seq 1 $TOT_RUNS`						#0
