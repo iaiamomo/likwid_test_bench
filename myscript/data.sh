@@ -1,65 +1,64 @@
 #!/bin/bash
 
-#BENCHS="RAYTRACE RADIOSITY VOLREND WATER-NSQUARED WATER-SPATIAL BARNES FMM CHOLESKY OCEAN-CONTIGUOUS-PARTITIONS" #OCEAN-NON-CONTIGUOUS-PARTITIONS"
-BENCHS="RAYTRACE RADIOSITY VOLREND"
-PERF_CTRS="CLOCK ENERGY"
+source config.sh
 
-FOLDER="likwid-output"
+ID_LIST_FILE=`seq 1 $TOT_THREADS`	#lista thread id nei file output
 
-(( THREADS_N = $1 + 1 ))
-THREADS=`seq 1 $THREADS_N`
-
-RUNS_N=$2
-RUNS=`seq 1 $RUNS_N`
-
-if [ -f "clock.txt" ]; then
-	rm clock.txt
-	touch clock.txt
-else
-	touch clock.txt
-fi
-
-if [ -f "energy.txt" ]; then
-	rm energy.txt
-	touch energy.txt
-else 
-	touch energy.txt
-fi
-
-if [ -f "clock_avg.txt" ]; then
-	rm clock_avg.txt
-	touch clock_avg.txt
-else 
-	touch clock_avg.txt
-fi
-
-if [ -f "energy_avg.txt" ]; then
-	rm energy_avg.txt
-	touch energy_avg.txt
-else 
-	touch energy_avg.txt
-fi
-
-for b in $BENCHS
+for g in $LIKWID_G
 do
-	for pc in $PERF_CTRS
+	G="${g,,}".txt
+	if [ -f $G ]; then
+		rm $G
+		touch $G
+	else
+		touch $G
+	fi
+	G_AVG="${g,,}"_avg.txt
+	if [ -f $G_AVG ]; then
+		rm $G_AVG
+		touch $G_AVG
+	else
+		touch $G_AVG
+	fi
+done
+
+for b in $BENCHS_NAME
+do
+	for g in $LIKWID_G
 	do
-		PC=`echo "${pc,,}"`
-		DIR=./$FOLDER/$pc/$b
+		G="${g,,}"
+		DIR=./$FOLDER/$g/$b
 		for r in $RUNS
 		do
-			for t in $THREADS
+			for t in $ID_LIST_FILE
 			do
 				FILE=$DIR/$b-$r-$t.txt
-				if [ $pc == "CLOCK" ]; then
-					python collect_clock.py $FILE $PC.txt
-				else
-					python collect_energy.py $FILE $PC.txt
-				fi
+				python collect_$G.py $FILE $G.txt
 			done
 		done
 	done
 done 
 
-python avg.py clock_avg.txt $THREADS_N $RUNS_N
-python avg.py energy_avg.txt $THREADS_N $RUNS_N
+for b in $BENCHS_NAME_NPB
+do
+	for g in $LIKWID_G
+	do
+		G="${g,,}"
+		DIR=./$FOLDER/$g/$b
+		for r in $RUNS
+		do
+			for t in $ID_LIST_FILE
+			do
+				FILE=$DIR/$b-$r-$t.txt
+				python collect_$G.py $FILE $G.txt
+			done
+		done
+	done
+done 
+
+for g in $LIKWID_G
+do
+	G="${g,,}"
+	echo ${G}_avg.txt
+	python avg.py ${G}_avg.txt $TOT_THREADS $TOT_RUNS
+done

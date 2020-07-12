@@ -11,7 +11,7 @@ f = open(f)
 r = open(report, "a")
 
 bench = namefile.split("/")[-1]
-bench = bench[:bench.find(".")]+"threads \n"
+bench = bench[:bench.rfind(".")]+"threads \n"
 r.write(bench)
 
 first_line=""

@@ -1,25 +1,17 @@
-all: lockbench-c splash3-c #sqlite-c 
+all: splash3-c NPB3.4.1-c
 
-libmutlock-c: libmutlock
-	cd libmutlock; make
-
-lockbench-c: libmutlock-c lockbench 
-	cd libmutlock; make install INSTALL_SO_PATH=../lockbench/libs INSTALL_INC_PATH=../lockbench/include
-	cd lockbench; make;
-	cd lockbench/script; ./create_machine_conf.sh 
-
-splash3-c: splash3 myscript
+splash3-c: splash3
 	cd splash3/codes; make;
+	
+NPB3.4.1-c: NPB3.4.1
+	cd NPB3.4.1/NPB3.4-OMP; make suite;
 	
 splash3:
 	git clone https://github.com/SakalisC/Splash-3.git splash3
-	
-libmutlock:
-	git clone --single-branch --branch litl https://github.com/HPDCS/libmutlock.git
 
 clean:
-	cd lockbench; make clean
 	cd splash3/codes; make clean
+	cd NPB3.4.1/NPB3.4-OMP; make clean
 
 rm:
-	rm -r -f lockbench splash3 
+	rm -r -f splash3 NPB3.4.1
