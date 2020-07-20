@@ -3,7 +3,7 @@ import sys
 f_avg = str(sys.argv[1])
 d_avg = "./likwid-output/avg/"
 
-bench = ["RAYTRACE", "RADIOSITY", "VOLREND", \
+bench = ["RAYTRACE", "RADIOSITY", \
 		"bt.A.x", "cg.A.x", "ep.A.x", "ft.A.x", "is.A.x", "lu.A.x", "mg.A.x", "sp.A.x", "ua.A.x"]
 
 stamp = ["bayes", "genome", "intruder", "kmeans", "labyrinth", "ssca2", "vacation", "yada"]
