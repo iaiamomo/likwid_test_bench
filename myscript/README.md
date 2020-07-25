@@ -11,7 +11,7 @@ sudo ./prepare_ramfs.sh username username #to mount ram to contain inputs file
 ./remove_ramfs.sh #to unmount ram
 ```
 
-This will create a folder *likwid-output* containing many all the results.
+This will create a folder *likwid-output* containing all the results.
 
 ### config.sh:
 *config.sh* is imported by *NameOfSuite_script.sh* and in *data.sh*
