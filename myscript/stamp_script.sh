@@ -53,7 +53,6 @@ if [ $EXECUTE -eq 1 ]; then
 					for n_thread in $PAR_N_THREAD		#parameter to pass to benchmark
 					do
 						nb=${APPS_STAMP}/$b			#../stamp/benchmark
-						echo $nb
 						DIR=`dirname "$nb"`		#execute dirname
 						FILE=`basename $nb`		#execute basename
 						PAR=`echo $FILE | tr '-' '_'`  	#substitute - with _
