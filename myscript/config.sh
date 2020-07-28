@@ -10,7 +10,8 @@ NUM_CORES=2
 
 #core list - LIKWID PIN
 TOT_THREADS=40
-THREAD_ID_LIST=`seq 0 $TOT_THREADS`
+(( LAST = TOT_THREADS - 1 ))
+THREAD_ID_LIST=`seq 0 $LAST`
 
 #number of runs
 TOT_RUNS=2
