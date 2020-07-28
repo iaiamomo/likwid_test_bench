@@ -356,8 +356,6 @@ int main(int argc, char **argv)
     printf("Other time (2nd timestep onward) = %lu\n",gl->tracktime - gl->intratime - gl->intertime);
 
     printf("\nExited Happily with XTT = %g (note: XTT value is garbage if NPRINT > NSTEP)\n", XTT);
-    
-    printf("\nExited Happily\n");
 
     MAIN_END;
 } /* main.c */
