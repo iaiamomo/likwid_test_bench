@@ -20,8 +20,8 @@ cd $MDIR
 #MOVE ALL INPUTS INTO A RAM FILESYSTEM
 for i in $APPS_SPLASH3/*
 do
-    mkdir -p /mnt/splash3/codes/apps/`basename $i`/inputs
-    cp $i/inputs/* /mnt/splash3/codes/apps/`basename $i`/inputs
+    mkdir -p /mnt/Splash-3/codes/apps/`basename $i`/inputs
+    cp $i/inputs/* /mnt/Splash-3/codes/apps/`basename $i`/inputs
 done
 
 if [ ! -d $FOLDER ]; then
@@ -50,7 +50,7 @@ if [ $EXECUTE -eq 1 ]; then
 				
 				for b in $BENCHS_SPLASH3
 				do
-					nb=${APPS_SPLASH3}/$b			#../splash3/codes/apps/benchmark
+					nb=${APPS_SPLASH3}/$b			#../splash-3/codes/apps/benchmark
 					DIR=`dirname "$nb"`		#execute dirname
 					FILE=`basename $nb`		#execute basename
 					SUFF=`python -c "print '-'+'$b'.split('/')[1].upper().replace('_', '-') if 'ocean' in '$DIR' else ''"`
