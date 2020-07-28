@@ -24,8 +24,8 @@ FOLDER="likwid-output"
 AVG_FOLDER="likwid-output/avg"
 
 #SPLASH
-APPS_SPLASH3="../Splash-3/codes/apps"
-INPUT_DIR_SPLASH3="/mnt/Splash-3/codes/apps"
+APPS_SPLASH3="../splash3/codes/apps"
+INPUT_DIR_SPLASH3="/mnt/splash3/codes/apps"
 BENCHS_SPLASH3="raytrace/RAYTRACE radiosity/RADIOSITY"
 BENCHS_NAME_SPLASH3="RAYTRACE RADIOSITY"
 

@@ -20,8 +20,8 @@ cd $MDIR
 #MOVE ALL INPUTS INTO A RAM FILESYSTEM
 for i in $APPS_SPLASH3/*
 do
-    mkdir -p /mnt/Splash-3/codes/apps/`basename $i`/inputs
-    cp $i/inputs/* /mnt/Splash-3/codes/apps/`basename $i`/inputs
+    mkdir -p /mnt/splash3/codes/apps/`basename $i`/inputs
+    cp $i/inputs/* /mnt/splash3/codes/apps/`basename $i`/inputs
 done
 
 if [ ! -d $FOLDER ]; then
