@@ -70,7 +70,7 @@ if [ $EXECUTE -eq 1 ]; then
 						GREP=`eval echo '$'GREP_$PAR`
 						N_THREAD_BENCH=2
 						(( N_THREAD = $t + 1 ))
-						OUT_FILE=$MDIR/$FOLDER/$g/$FILE/$FILE-${n_thread}t-$r-$N_THREAD.txt
+						OUT_FILE=$MDIR/$FOLDER/$g/$FILE/$FILE-${n_thread}t-r-$r-t-$N_THREAD.txt
 						mkdir -p $MDIR/$FOLDER/$g/$FILE/
 						cd $DIR
 						echo $OUT_FILE

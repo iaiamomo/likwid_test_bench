@@ -60,7 +60,7 @@ if [ $EXECUTE -eq 1 ]; then
 					N_THREAD_BENCH=2
 					PARV=${PARV//PROCESS/$N_THREAD_BENCH}
 					(( N_THREAD = $t + 1 ))
-					OUT_FILE=$MDIR/$FOLDER/$g/$FILE$SUFF/$FILE$SUFF-$r-$N_THREAD.txt
+					OUT_FILE=$MDIR/$FOLDER/$g/$FILE$SUFF/$FILE$SUFF-r-$r-t-$N_THREAD.txt
 					mkdir -p $MDIR/$FOLDER/$g/$FILE$SUFF
 					cd $DIR
 					echo $OUT_FILE

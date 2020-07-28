@@ -46,7 +46,7 @@ if [ $EXECUTE -eq 1 ]; then
 					FILE=`basename $nb`				#execute basename
 					PAR=`echo $FILE | tr '.' '_'`  	#substitute - with _
 					GREP=`eval echo '$'GREP_$PAR`
-					OUT_FILE=$MDIR/$FOLDER/$g/$FILE/$FILE-$r-$N_THREAD.txt
+					OUT_FILE=$MDIR/$FOLDER/$g/$FILE/$FILE-r-$r-t-$N_THREAD.txt
 					mkdir -p $MDIR/$FOLDER/$g/$FILE
 					cd $DIR
 					echo $OUT_FILE

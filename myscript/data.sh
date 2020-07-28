@@ -34,7 +34,7 @@ do
 		do
 			for t in $ID_LIST_FILE
 			do
-				FILE=$DIR/$b-$r-$t.txt
+				FILE=$DIR/$b-r-$r-t-$t.txt
 				python collect_$G.py $FILE ./$FOLDER/$G.txt
 			done
 		done
@@ -51,7 +51,7 @@ do
 		do
 			for t in $ID_LIST_FILE
 			do
-				FILE=$DIR/$b-$r-$t.txt
+				FILE=$DIR/$b-r-$r-t-$t.txt
 				python collect_$G.py $FILE ./$FOLDER/$G.txt
 			done
 		done
@@ -70,7 +70,7 @@ do
 			do
 				for nt in $PAR_N_THREAD
 				do
-					FILE=$DIR/$b-${nt}t-$r-$t.txt
+					FILE=$DIR/$b-${nt}t-r-$r-t-$t.txt
 					python collect_$G.py $FILE ./$FOLDER/$G.txt
 				done
 			done
