@@ -17,13 +17,6 @@ cd $INPUT_DIR_STAMP
 INPUT_DIR_STAMP=`pwd`
 cd $MDIR
 
-#MOVE ALL INPUTS INTO A RAM FILESYSTEM
-for i in $APPS_STAMP/*
-do
-    mkdir -p /mnt/stamp/`basename $i`/inputs
-    cp $i/inputs/* /mnt/stamp/`basename $i`/inputs
-done
-
 if [ ! -d $FOLDER ]; then
 	mkdir -p $FOLDER
 fi

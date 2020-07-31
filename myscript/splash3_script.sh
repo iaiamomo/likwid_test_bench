@@ -17,13 +17,6 @@ cd $INPUT_DIR_SPLASH3
 INPUT_DIR_SPLASH3=`pwd`
 cd $MDIR
 
-#MOVE ALL INPUTS INTO A RAM FILESYSTEM
-for i in $APPS_SPLASH3/*
-do
-    mkdir -p /mnt/splash3/codes/apps/`basename $i`/inputs
-    cp $i/inputs/* /mnt/splash3/codes/apps/`basename $i`/inputs
-done
-
 if [ ! -d $FOLDER ]; then
 	mkdir -p $FOLDER
 fi
