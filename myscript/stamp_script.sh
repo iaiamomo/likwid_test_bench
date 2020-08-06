@@ -17,6 +17,13 @@ cd $INPUT_DIR_STAMP
 INPUT_DIR_STAMP=`pwd`
 cd $MDIR
 
+#MOVE ALL INPUTS INTO A RAM FILESYSTEM
+for i in $APPS_STAMP/*
+do
+    mkdir -p /mnt/stamp/`basename $i`/inputs
+    cp $i/inputs/* /mnt/stamp/`basename $i`/inputs
+done
+
 if [ ! -d $FOLDER ]; then
 	mkdir -p $FOLDER
 fi
@@ -62,7 +69,6 @@ if [ $EXECUTE -eq 1 ]; then
 						fi
 						GREP=`eval echo '$'GREP_$PAR`
 						N_THREAD_BENCH=2
-						(( N_THREAD = $t + 1 ))
 						OUT_FILE=$MDIR/$FOLDER/$g/$FILE/$FILE-${n_thread}t-r-$r-t-$N_THREAD.txt
 						mkdir -p $MDIR/$FOLDER/$g/$FILE/
 						cd $DIR

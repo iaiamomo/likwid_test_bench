@@ -17,6 +17,13 @@ cd $INPUT_DIR_SPLASH3
 INPUT_DIR_SPLASH3=`pwd`
 cd $MDIR
 
+#MOVE ALL INPUTS INTO A RAM FILESYSTEM
+for i in $APPS_SPLASH3/*
+do
+    mkdir -p /mnt/splash3/codes/apps/`basename $i`/inputs
+    cp $i/inputs/* /mnt/splash3/codes/apps/`basename $i`/inputs
+done
+
 if [ ! -d $FOLDER ]; then
 	mkdir -p $FOLDER
 fi
@@ -52,7 +59,6 @@ if [ $EXECUTE -eq 1 ]; then
 					GREP=`eval echo '$'GREP_$PAR`
 					N_THREAD_BENCH=2
 					PARV=${PARV//PROCESS/$N_THREAD_BENCH}
-					(( N_THREAD = $t + 1 ))
 					OUT_FILE=$MDIR/$FOLDER/$g/$FILE$SUFF/$FILE$SUFF-r-$r-t-$N_THREAD.txt
 					mkdir -p $MDIR/$FOLDER/$g/$FILE$SUFF
 					cd $DIR
