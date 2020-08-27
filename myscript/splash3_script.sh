@@ -37,13 +37,13 @@ if [ $EXECUTE -eq 1 ]; then
 	do
 		for r in $RUNS
 		do
-			PIN=N:
+			PIN=""
 			N_THREAD=1
 			
 			for t in $THREAD_ID_LIST
 			do
-				if [ $PIN == N: ] ; then
-					PIN=$PIN$t
+				if [ -z "$PIN" ] ; then
+					PIN=$t
 				else
 					PIN=$PIN,$t
 				fi
@@ -57,7 +57,7 @@ if [ $EXECUTE -eq 1 ]; then
 					PAR=`echo $FILE | tr '-' '_'`  	#substitute - with _
 					PARV=`eval echo '$'PAR_$PAR`  	#eval calculate '$'PAR_$PAR -> accede ai parametri di ogni bench
 					GREP=`eval echo '$'GREP_$PAR`
-					N_THREAD_BENCH=2
+					N_THREAD_BENCH=10
 					PARV=${PARV//PROCESS/$N_THREAD_BENCH}
 					OUT_FILE=$MDIR/$FOLDER/$g/$FILE$SUFF/$FILE$SUFF-r-$r-t-$N_THREAD.txt
 					mkdir -p $MDIR/$FOLDER/$g/$FILE$SUFF

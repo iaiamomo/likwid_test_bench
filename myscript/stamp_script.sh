@@ -37,13 +37,13 @@ if [ $EXECUTE -eq 1 ]; then
 	do
 		for r in $RUNS
 		do
-			PIN=N:
+			PIN=""
 			N_THREAD=1
 			
 			for t in $THREAD_ID_LIST
 			do
-				if [ $PIN == N: ] ; then
-					PIN=$PIN$t
+				if [ -z "$PIN" ] ; then
+					PIN=$t
 				else
 					PIN=$PIN,$t
 				fi
@@ -68,7 +68,6 @@ if [ $EXECUTE -eq 1 ]; then
 							PARV=${PARV//thread/$THREAD}
 						fi
 						GREP=`eval echo '$'GREP_$PAR`
-						N_THREAD_BENCH=2
 						OUT_FILE=$MDIR/$FOLDER/$g/$FILE/$FILE-${n_thread}t-r-$r-t-$N_THREAD.txt
 						mkdir -p $MDIR/$FOLDER/$g/$FILE/
 						cd $DIR

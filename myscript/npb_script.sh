@@ -27,14 +27,14 @@ if [ $EXECUTE -eq 1 ]; then
 	do
 		for r in $RUNS
 		do
-			PIN=N:
+			PIN=""
 			N_THREAD=1
 			
 			for t in $THREAD_ID_LIST
 			do
 				
-				if [ $PIN == N: ] ; then
-					PIN=$PIN$t
+				if [ -z "$PIN" ] ; then
+					PIN=$t
 				else
 					PIN=$PIN,$t
 				fi
