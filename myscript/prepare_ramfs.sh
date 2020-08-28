@@ -5,6 +5,7 @@ mount -t ramfs -o size=20m ramfs /mnt/stamp
 chown $1:$2 /mnt/splash3/codes/apps		#passare utente:utente
 chown $1:$2 /mnt/stamp					#passare utente:utente
 
+#to execute likwid-perfctr i need access msr
 CHECK_MSR="/dev/cpu/0/msr"
 if [ ! -d "$CHECK_MSR" ]; then
 	modprobe msr

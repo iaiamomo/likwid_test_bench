@@ -9,15 +9,19 @@ NUM_SOCKETS=1
 NUM_CORES=2
 
 #core list - LIKWID PIN
-TOT_THREADS=20
-THREAD_ID_LIST="0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38"
+N_PHISICAL_CORE=10
+PHISICAL_CORE=`seq 1 $N_PHISICAL_CORE`
 
 #number of runs
 TOT_RUNS=1
 RUNS=`seq 1 $TOT_RUNS`
 
+#frequencies of cores
+FREQ=`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies`
+CORES="0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38"	#cores of socket 0 to modify
+
 #LIKWID group events
-LIKWID_G="CLOCK ENERGY"
+LIKWID_G="MONTI"
 
 #FOLDER CONTAINING OUTPUT OF THE EXECUTION
 FOLDER="likwid-output"
@@ -27,7 +31,7 @@ AVG_FOLDER="likwid-output/avg"
 APPS_SPLASH3="../splash3/codes/apps"
 INPUT_DIR_SPLASH3="/mnt/splash3/codes/apps"
 BENCHS_SPLASH3="raytrace/RAYTRACE radiosity/RADIOSITY"
-BENCHS_NAME_SPLASH3="RAYTRACE RADIOSITY"
+#BENCHS_NAME_SPLASH3="RAYTRACE RADIOSITY"
 
 PAR_RAYTRACE="-pPROCESS -m64 -a400 $INPUT_DIR_SPLASH3/raytrace/inputs/car.env"
 PAR_RADIOSITY="-p PROCESS -bf 0.0008 -room -batch"
@@ -37,18 +41,18 @@ GREP_RADIOSITY="Elem(hierarchical)/Elem(uniform)"
 
 #NPB_OMP
 APPS_NPB="../NPB3.4.1/NPB3.4-OMP/bin"
-BENCHS_NPB="bt.A.x cg.A.x ep.A.x ft.A.x is.A.x lu.A.x mg.A.x sp.A.x ua.A.x"
-BENCHS_NAME_NPB="bt.A.x cg.A.x ep.A.x ft.A.x is.A.x lu.A.x mg.A.x sp.A.x ua.A.x"
+BENCHS_NPB="bt.B.x cg.B.x ep.B.x ft.B.x is.B.x lu.B.x mg.B.x sp.B.x ua.B.x"
+BENCHS_NAME_NPB="bt.B.x cg.B.x ep.B.x ft.B.x is.B.x lu.B.x mg.B.x sp.B.x ua.B.x"
 
-GREP_bt_A_x="Verification Successful"
-GREP_cg_A_x="VERIFICATION SUCCESSFUL"
-GREP_ep_A_x="EP Benchmark Completed."
-GREP_ft_A_x="Result verification successful"
-GREP_is_A_x="IS Benchmark Completed"
-GREP_lu_A_x="Verification Successful"
-GREP_mg_A_x="VERIFICATION SUCCESSFUL"
-GREP_sp_A_x="Verification Successful"
-GREP_ua_A_x="Verification Successful"
+GREP_bt_B_x="Verification Successful"
+GREP_cg_B_x="VERIFICATION SUCCESSFUL"
+GREP_ep_B_x="EP Benchmark Completed."
+GREP_ft_B_x="Result verification successful"
+GREP_is_B_x="IS Benchmark Completed"
+GREP_lu_B_x="Verification Successful"
+GREP_mg_B_x="VERIFICATION SUCCESSFUL"
+GREP_sp_B_x="Verification Successful"
+GREP_ua_B_x="Verification Successful"
 
 #STAMP
 MAX_THREAD=2		#parameter to pass to execution of benchmarks
@@ -57,7 +61,7 @@ PAR_N_THREAD=`seq 1 $MAX_THREAD`
 APPS_STAMP="../stamp_tinySTM/stamp"
 INPUT_DIR_STAMP="/mnt/stamp"
 BENCHS_STAMP="bayes/bayes genome/genome intruder/intruder kmeans/kmeans labyrinth/labyrinth ssca2/ssca2 vacation/vacation yada/yada"
-BENCHS_NAME_STAMP="bayes genome intruder kmeans labyrinth ssca2 vacation yada"
+#BENCHS_NAME_STAMP="bayes genome intruder kmeans labyrinth ssca2 vacation yada"
 
 PAR_bayes="-v32 -r4096 -n10 -p40 -i2 -e8 -s1 thread"
 PAR_genome="-g16384 -s64 -n16777216 thread"

@@ -1,13 +1,5 @@
 #!/bin/bash
-
 source config.sh
-
-#to execute likwid-perfctr i need access msr
-CHECK_MSR="/dev/cpu/0/msr"
-if [ ! -d "$CHECK_MSR" ]; then
-	sudo modprobe msr
-	sudo chmod +rw /dev/cpu/*/msr
-fi
 
 MDIR=`pwd`
 cd $APPS_SPLASH3
