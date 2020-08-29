@@ -87,11 +87,8 @@ do
 	done
 done
 
-#ONLY IF I HAVE MORE THAN 1 RUN
-if [ "$TOT_RUNS" -gt 1] ; then
-	for g in $LIKWID_G
-	do
-		G="${g,,}"
-		python avg.py ${G}_avg.txt $TOT_THREADS $TOT_RUNS
-	done
-fi
+for g in $LIKWID_G
+do
+	G="${g,,}"
+	python avg.py ${G}_avg.txt $N_PHISICAL_CORE $TOT_RUNS
+done

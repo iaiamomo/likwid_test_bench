@@ -1,4 +1,4 @@
-! CLASS = B
+! CLASS = A
 !  
 !  
 !  This file is generated automatically by the setparams utility.
@@ -6,8 +6,8 @@
 !  in this directory. Do not modify it by hand.
 !  
         integer nx, ny, nz, maxdim, niter_default
-        parameter (nx=512, ny=256, nz=256, maxdim=512)
-        parameter (niter_default=20)
+        parameter (nx=256, ny=256, nz=128, maxdim=256)
+        parameter (niter_default=6)
         integer kind2
         parameter (kind2=4)
         logical  convertdouble

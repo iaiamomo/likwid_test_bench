@@ -1,4 +1,4 @@
-! CLASS = B
+! CLASS = A
 !  
 !  
 !  This file is generated automatically by the setparams utility.
@@ -6,9 +6,9 @@
 !  in this directory. Do not modify it by hand.
 !  
         character class
-        parameter (class ='B')
+        parameter (class ='A')
         integer m
-        parameter (m=30)
+        parameter (m=28)
         logical  convertdouble
         parameter (convertdouble = .false.)
         character compiletime*11

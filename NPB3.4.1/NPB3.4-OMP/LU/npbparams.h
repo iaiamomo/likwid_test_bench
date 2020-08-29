@@ -1,4 +1,4 @@
-! CLASS = B
+! CLASS = A
 !  
 !  
 !  This file is generated automatically by the setparams utility.
@@ -8,7 +8,7 @@
 
 ! full problem size
         integer isiz1, isiz2, isiz3
-        parameter (isiz1=102, isiz2=102, isiz3=102)
+        parameter (isiz1=64, isiz2=64, isiz3=64)
 
 ! number of iterations and how often to print the norm
         integer itmax_default, inorm_default

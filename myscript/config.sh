@@ -41,18 +41,21 @@ GREP_RADIOSITY="Elem(hierarchical)/Elem(uniform)"
 
 #NPB_OMP
 APPS_NPB="../NPB3.4.1/NPB3.4-OMP/bin"
-BENCHS_NPB="bt.B.x cg.B.x ep.B.x ft.B.x is.B.x lu.B.x mg.B.x sp.B.x ua.B.x"
-BENCHS_NAME_NPB="bt.B.x cg.B.x ep.B.x ft.B.x is.B.x lu.B.x mg.B.x sp.B.x ua.B.x"
+BENCHS_NPB="is.A.x cg.A.x ft.A.x mg.A.x"
+#bt.A.x 
+#ep.A.x sp.A.x
+#lu.A.x ua.A.x
+BENCHS_NAME_NPB="is.A.x cg.A.x ft.A.x mg.A.x"
 
-GREP_bt_B_x="Verification Successful"
-GREP_cg_B_x="VERIFICATION SUCCESSFUL"
-GREP_ep_B_x="EP Benchmark Completed."
-GREP_ft_B_x="Result verification successful"
-GREP_is_B_x="IS Benchmark Completed"
-GREP_lu_B_x="Verification Successful"
-GREP_mg_B_x="VERIFICATION SUCCESSFUL"
-GREP_sp_B_x="Verification Successful"
-GREP_ua_B_x="Verification Successful"
+GREP_bt_A_x="Verification Successful"
+GREP_cg_A_x="VERIFICATION SUCCESSFUL"
+GREP_ep_A_x="EP Benchmark Completed."
+GREP_ft_A_x="Result verification successful"
+GREP_is_A_x="IS Benchmark Completed"
+GREP_lu_A_x="Verification Successful"
+GREP_mg_A_x="VERIFICATION SUCCESSFUL"
+GREP_sp_A_x="Verification Successful"
+GREP_ua_A_x="Verification Successful"
 
 #STAMP
 MAX_THREAD=2		#parameter to pass to execution of benchmarks

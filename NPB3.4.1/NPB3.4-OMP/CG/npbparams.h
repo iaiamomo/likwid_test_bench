@@ -1,4 +1,4 @@
-! CLASS = B
+! CLASS = A
 !  
 !  
 !  This file is generated automatically by the setparams utility.
@@ -7,10 +7,10 @@
 !  
         integer            na, nonzer, niter
         double precision   shift, rcond
-        parameter(  na=75000, &
-     &              nonzer=13, &
-     &              niter=75, &
-     &              shift=60., &
+        parameter(  na=14000, &
+     &              nonzer=11, &
+     &              niter=15, &
+     &              shift=20., &
      &              rcond=1.0d-1 )
         integer, parameter :: kz=4
         logical  convertdouble
