@@ -4,11 +4,18 @@ source config.sh
 
 ID_LIST_FILE=`seq 1 $TOT_THREADS`	#lista thread id nei file output NON SERVIRÀ PIÙ
 
-if [ -d $AVG_FOLDER ]; then
-	rm -rf $AVG_FOLDER
-	mkdir $AVG_FOLDER
+if [ -d $CSV_AVG_RUN_FOLDER ]; then
+	rm -rf $CSV_AVG_RUN_FOLDER
+	mkdir $CSV_AVG_RUN_FOLDER
 else
-	mkdir $AVG_FOLDER
+	mkdir $CSV_AVG_RUN_FOLDER
+fi
+
+if [ -d $CSV_AVG_THREAD_RUN_FOLDER ]; then
+	rm -rf $CSV_AVG_THREAD_RUN_FOLDER
+	mkdir $CSV_AVG_THREAD_RUN_FOLDER
+else
+	mkdir $CSV_AVG_THREAD_RUN_FOLDER
 fi
 
 for g in $LIKWID_G
@@ -20,8 +27,10 @@ do
 	else
 		touch $G
 	fi
-	G_AVG=$AVG_FOLDER/"${g,,}"
-	mkdir $G_AVG
+	G_AVG_RUN=$CSV_AVG_RUN_FOLDER/"${g,,}"
+	mkdir $G_AVG_RUN
+	G_AVG_THREAD_RUN=$CSV_AVG_THREAD_RUN_FOLDER/"${g,,}"
+	mkdir $G_AVG_THREAD_RUN
 done
 
 #NON VIENE ESEGUITO
@@ -90,5 +99,6 @@ done
 for g in $LIKWID_G
 do
 	G="${g,,}"
-	python avg.py ${G}_avg.txt $N_PHISICAL_CORE $TOT_RUNS
+	python avg_run.py ${G}_avg.txt $N_PHISICAL_CORE $TOT_RUNS
+	python avg_thread_run.py $G $N_PHISICAL_CORE $TOT_RUNS
 done

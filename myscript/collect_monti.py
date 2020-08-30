@@ -11,7 +11,13 @@ f = open(f)
 r = open(report, "a")
 
 bench = namefile.split("/")[-1]
-bench = bench[:bench.rfind(".")]+"\n"
+bench = bench[:bench.rfind(".")]
+t=0
+co = bench[bench.rfind("-pc-")+4:bench.find("-lc-")]
+t+=int(co)
+co = bench[bench.rfind("-lc-")+4:bench.find("-f-")]
+t+=int(co)
+bench = bench[:bench.find("-f-")] + "-t-" + str(t) + bench[bench.rfind("-f-"):] + "\n"
 r.write(bench)
 
 first_line=""

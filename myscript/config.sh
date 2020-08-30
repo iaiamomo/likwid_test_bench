@@ -25,7 +25,8 @@ LIKWID_G="MONTI"
 
 #FOLDER CONTAINING OUTPUT OF THE EXECUTION
 FOLDER="likwid-output"
-AVG_FOLDER="likwid-output/avg"
+CSV_AVG_RUN_FOLDER="likwid-output/avg_run"
+CSV_AVG_THREAD_RUN_FOLDER="likwid-output/avg_thread_run"
 
 #SPLASH
 APPS_SPLASH3="../splash3/codes/apps"

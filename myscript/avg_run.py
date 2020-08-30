@@ -1,7 +1,8 @@
 import sys
+import csv
 
 f_avg = str(sys.argv[1])
-d_avg = "./likwid-output/avg/"
+d_avg = "./likwid-output/avg_run/"
 
 #bench = ["RAYTRACE", "RADIOSITY", "bt.B.x", "cg.B.x", "ep.B.x", "ft.B.x", "is.B.x", "lu.B.x", "mg.B.x", "sp.B.x", "ua.B.x"]
 bench = ["cg.A.x", "ft.A.x", "is.A.x", "mg.A.x"]
@@ -77,14 +78,14 @@ if "clock" in f_avg:
 			f.close()
 			r.write(name+" "+str(t)+" threads\n")
 			r.write(lcores)
-			r.write("Runtime [s] "+" | ".join(runtime)+"\n")
-			r.write("Runtime unhalted [s] "+" | ".join(runtime_unhalted)+"\n")
-			r.write("Clock [MHz] "+" | ".join(clock)+"\n")
-			r.write("Uncore Clock [MHz] "+str(uncore_clock)+"\n")
-			r.write("CPI "+" | ".join(cpi)+"\n")
-			r.write("IPC "+" | ".join(ipc)+"\n")
-			r.write("Energy [J] "+str(energy)+"\n")
-			r.write("Power [W] "+str(power)+"\n\n")
+			r.write("Runtime [s]|"+"|".join(runtime)+"|\n")
+			r.write("Runtime unhalted [s]|"+"|".join(runtime_unhalted)+"|\n")
+			r.write("Clock [MHz]|"+"|".join(clock)+"|\n")
+			r.write("Uncore Clock [MHz]|"+str(uncore_clock)+"|\n")
+			r.write("CPI|"+"|".join(cpi)+"|\n")
+			r.write("IPC|"+"|".join(ipc)+"|\n")
+			r.write("Energy [J]|"+str(energy)+"|\n")
+			r.write("Power [W]|"+str(power)+"|\n\n")
 elif "energy" in f_avg:
 	for name in bench:
 		for t in range(1,tot_threads+1):
@@ -151,27 +152,26 @@ elif "energy" in f_avg:
 			f.close()
 			r.write(name+" "+str(t)+" threads\n")
 			r.write(lcores)
-			r.write("Runtime [s] "+" | ".join(runtime)+"\n")
-			r.write("Runtime unhalted [s] "+" | ".join(runtime_unhalted)+"\n")
-			r.write("Clock [MHz] "+" | ".join(clock)+"\n")
-			r.write("CPI "+" | ".join(cpi)+"\n")
-			r.write("IPC "+" | ".join(ipc)+"\n")
-			r.write("Energy [J] "+str(energy)+"\n")
-			r.write("Power [W] "+str(power)+"\n")
-			r.write("Energy PP0 [J] "+str(energy_pp0)+"\n")
-			r.write("Power PP0 [W] "+str(power_pp0)+"\n")
-			r.write("Energy DRAM [J] "+str(energy_dram)+"\n")
-			r.write("Power DRAM [W] "+str(power_dram)+"\n")
-			r.write("Temperature "+" | ".join(temp)+"\n\n")
+			r.write("Runtime [s]|"+"|".join(runtime)+"|\n")
+			r.write("Runtime unhalted [s]|"+"|".join(runtime_unhalted)+"|\n")
+			r.write("Clock [MHz]|"+"|".join(clock)+"|\n")
+			r.write("CPI|"+"|".join(cpi)+"|\n")
+			r.write("IPC|"+"|".join(ipc)+"|\n")
+			r.write("Energy [J]|"+str(energy)+"|\n")
+			r.write("Power [W]|"+str(power)+"|\n")
+			r.write("Energy PP0 [J]|"+str(energy_pp0)+"|\n")
+			r.write("Power PP0 [W]|"+str(power_pp0)+"|\n")
+			r.write("Energy DRAM [J]|"+str(energy_dram)+"|\n")
+			r.write("Power DRAM [W]|"+str(power_dram)+"|\n")
+			r.write("Temperature|"+"|".join(temp)+"|\n\n")
 elif "monti" in f_avg:
 	for name in bench:
 		for pc in range(1,tot_cores+1):
 			for lc in range(0,pc+1):
 				for fr in freq:
 						t = pc + lc
-						subname = "-pc-" + str(pc) + "-lc-" + str(lc) + "-f-" + str(fr)
-						namefile = d_avg + "monti/" + name + subname + "_" + f_avg
-						r = open(namefile, "a")
+						subname = "-pc-" + str(pc) + "-lc-" + str(lc) + "-t-" + str(t) + "-f-" + str(fr)
+						
 						lcores = ""
 						runtime = [0]*t
 						runtime_unhalted = [0]*t
@@ -259,24 +259,40 @@ elif "monti" in f_avg:
 						energy_dram = energy_dram/tot_runs
 						power_dram = power_dram/tot_runs
 						f.close()
-						r.write(name+" "+str(t)+" threads\n")
-						r.write(str(pc)+" physical cores, "+str(lc)+" logical cores, frequency "+str(fr)+"\n")
-						r.write(lcores)
-						r.write("Runtime [s] "+" | ".join(runtime)+"\n")
-						r.write("Runtime unhalted [s] "+" | ".join(runtime_unhalted)+"\n")
-						r.write("Clock [MHz] "+" | ".join(clock)+"\n")
-						r.write("Uncore Clock [MHz] "+str(uncore_clock)+"\n")
-						r.write("CPI "+" | ".join(cpi)+"\n")
-						r.write("Temperature "+" | ".join(temp)+"\n")
-						r.write("Energy [J] "+str(energy)+"\n")
-						r.write("Power [W] "+str(power)+"\n")
-						r.write("Energy PP0 [J] "+str(energy_pp0)+"\n")
-						r.write("Power PP0 [W] "+str(power_pp0)+"\n")
-						r.write("Energy DRAM [J] "+str(energy_dram)+"\n")
-						r.write("Power DRAM [W] "+str(power_dram)+"\n")
-						r.write("L2 request rate "+" | ".join(l2_req_rate)+"\n")
-						r.write("L2 miss rate "+" | ".join(l2_miss_rate)+"\n")
-						r.write("L2 miss ratio "+" | ".join(l2_miss_ratio)+"\n")
-						r.write("L3 request rate "+" | ".join(l3_req_rate)+"\n")
-						r.write("L3 miss rate "+" | ".join(l3_miss_rate)+"\n")
-						r.write("L3 miss ratio "+" | ".join(l3_miss_ratio)+"\n\n")
+						
+						rows = []
+						runtime.insert(0, "Runtime [s]")
+						runtime_unhalted.insert(0, "Runtime unhalted [s]")
+						clock.insert(0, "Clock [MHz]")
+						cpi.insert(0, "CPI")
+						temp.insert(0, "Temperature")
+						l2_req_rate.insert(0, "L2 request rate")
+						l2_miss_rate.insert(0, "L2 miss rate")
+						l2_miss_ratio.insert(0, "L2 miss ratio")
+						l3_req_rate.insert(0, "L3 request rate")
+						l3_miss_rate.insert(0, "L3 miss rate")
+						l3_miss_ratio.insert(0, "L3 miss ratio")
+						rows.append(runtime)
+						rows.append(runtime_unhalted)
+						rows.append(clock)
+						rows.append(["Uncore Clock [MHz]", uncore_clock])
+						rows.append(cpi)
+						rows.append(temp)
+						rows.append(["Energy [J]", energy])
+						rows.append(["Power [W]", power])
+						rows.append(["Energy PP0 [J]", energy_pp0])
+						rows.append(["Power PP0 [W]", power_pp0])
+						rows.append(["Energy DRAM [J]", energy_dram])
+						rows.append(["Power DRAM [W]", power_dram])
+						rows.append(l2_req_rate)
+						rows.append(l2_miss_rate)
+						rows.append(l2_miss_ratio)
+						rows.append(l3_req_rate)
+						rows.append(l3_miss_rate)
+						rows.append(l3_miss_ratio)
+
+						csv_file = d_avg + "monti/" + name + subname + "_monti_avg.csv"
+						with open(csv_file, 'wb') as f:
+							writer = csv.writer(f, delimiter="|")
+							writer.writerows(rows)
+
