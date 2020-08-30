@@ -126,7 +126,6 @@ for l in f.readlines():
 					l2_miss_ratio=l2_miss_ratio+l[i].strip()+" | "
 				else:
 					l2_miss_ratio=l2_miss_ratio+"- | "
-		power_dram=power_dram+l[1].strip()+" "
 	elif "L3 request rate" in l and "L3 request rate STAT" not in l:
 		l=l.strip("|").strip().split("|")
 		n=len(l)-1
@@ -167,9 +166,9 @@ r.write("Runtime unhalted [s] "+runtime_unhalted+"\n")
 r.write("Clock [MHz] "+clock+"\n")
 r.write("Uncore Clock [MHz] "+uncore_clock+"\n")
 r.write("CPI "+cpi+"\n")
-r.write("Temperature "+temperature+"\n\n")
+r.write("Temperature "+temperature+"\n")
 r.write("Energy [J] "+energy+"\n")
-r.write("Power [W] "+power+"\n\n")
+r.write("Power [W] "+power+"\n")
 r.write("Energy PP0 [J] "+energy_pp0+"\n")
 r.write("Power PP0 [W] "+power_pp0+"\n")
 r.write("Energy DRAM [J] "+energy_dram+"\n")
@@ -179,6 +178,6 @@ r.write("L2 miss rate "+l2_miss_rate+"\n");
 r.write("L2 miss ratio "+l2_miss_ratio+"\n");
 r.write("L3 request rate "+l3_req_rate+"\n");
 r.write("L3 miss rate "+l3_miss_rate+"\n");
-r.write("L3 miss ratio "+l3_miss_ratio+"\n");
+r.write("L3 miss ratio "+l3_miss_ratio+"\n\n");
 
 r.close()

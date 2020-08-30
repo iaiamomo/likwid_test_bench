@@ -4,7 +4,7 @@ f_avg = str(sys.argv[1])
 d_avg = "./likwid-output/avg/"
 
 #bench = ["RAYTRACE", "RADIOSITY", "bt.B.x", "cg.B.x", "ep.B.x", "ft.B.x", "is.B.x", "lu.B.x", "mg.B.x", "sp.B.x", "ua.B.x"]
-bench = ["bt.B.x", "cg.B.x", "ep.B.x", "ft.B.x", "is.B.x", "lu.B.x", "mg.B.x", "sp.B.x", "ua.B.x"]
+bench = ["cg.A.x", "ft.A.x", "is.A.x", "mg.A.x"]
 
 #stamp = ["bayes", "genome", "intruder", "kmeans", "labyrinth", "ssca2", "vacation", "yada"]
 #thread_stamp = 2
@@ -160,16 +160,16 @@ elif "energy" in f_avg:
 			r.write("Power [W] "+str(power)+"\n")
 			r.write("Energy PP0 [J] "+str(energy_pp0)+"\n")
 			r.write("Power PP0 [W] "+str(power_pp0)+"\n")
-			r.write("Energy DRAM [J] "+str(energy_pp0)+"\n")
-			r.write("Power DRAM [W] "+str(power_pp0)+"\n")
+			r.write("Energy DRAM [J] "+str(energy_dram)+"\n")
+			r.write("Power DRAM [W] "+str(power_dram)+"\n")
 			r.write("Temperature "+" | ".join(temp)+"\n\n")
 elif "monti" in f_avg:
 	for name in bench:
 		for pc in range(1,tot_cores+1):
 			for lc in range(0,pc+1):
-				for f in freq:
+				for fr in freq:
 						t = pc + lc
-						subname = "-pc-" + pc + "-lc-" + lc + "-f-" + f
+						subname = "-pc-" + str(pc) + "-lc-" + str(lc) + "-f-" + str(fr)
 						namefile = d_avg + "monti/" + name + subname + "_" + f_avg
 						r = open(namefile, "a")
 						lcores = ""
@@ -193,7 +193,7 @@ elif "monti" in f_avg:
 						l3_miss_ratio = [0]*t
 						with open("./likwid-output/monti.txt", "r") as f:
 							lines = f.readlines()
-						step = 15
+						step = 21
 						for i in range(0, len(lines), step):
 							lname = lines[i]
 							if name in lname and subname in lname:
@@ -234,12 +234,12 @@ elif "monti" in f_avg:
 											isfloat(ll3_req_rate[th].strip()) and isfloat(ll3_miss_rate[th].strip()) and isfloat(ll3_miss_ratio[th].strip()):
 										clock[th]+=float(lclock[th].strip())
 										cpi[th]+=float(lcpi[th].strip())
-										l2_req_rate[th]+=float(ll2_req_rate[th].strip)
-										l2_miss_rate[th]+=float(ll2_miss_rate[th].strip)
-										l2_miss_ratio[th]+=float(ll2_miss_ratio[th].strip)
-										l3_req_rate[th]+=float(ll3_req_rate[th].strip)
-										l3_miss_rate[th]+=float(ll3_miss_rate[th].strip)
-										l3_miss_ratio[th]+=float(ll3_miss_ratio[th].strip)
+										l2_req_rate[th]+=float(ll2_req_rate[th].strip())
+										l2_miss_rate[th]+=float(ll2_miss_rate[th].strip())
+										l2_miss_ratio[th]+=float(ll2_miss_ratio[th].strip())
+										l3_req_rate[th]+=float(ll3_req_rate[th].strip())
+										l3_miss_rate[th]+=float(ll3_miss_rate[th].strip())
+										l3_miss_ratio[th]+=float(ll3_miss_ratio[th].strip())
 						for i in range(len(runtime)): runtime[i]=str(runtime[i]/tot_runs)
 						for i in range(len(runtime_unhalted)): runtime_unhalted[i]=str(runtime_unhalted[i]/tot_runs)
 						for i in range(len(temp)): temp[i]=str(temp[i]/tot_runs)
@@ -260,6 +260,7 @@ elif "monti" in f_avg:
 						power_dram = power_dram/tot_runs
 						f.close()
 						r.write(name+" "+str(t)+" threads\n")
+						r.write(str(pc)+" physical cores, "+str(lc)+" logical cores, frequency "+str(fr)+"\n")
 						r.write(lcores)
 						r.write("Runtime [s] "+" | ".join(runtime)+"\n")
 						r.write("Runtime unhalted [s] "+" | ".join(runtime_unhalted)+"\n")
@@ -271,8 +272,8 @@ elif "monti" in f_avg:
 						r.write("Power [W] "+str(power)+"\n")
 						r.write("Energy PP0 [J] "+str(energy_pp0)+"\n")
 						r.write("Power PP0 [W] "+str(power_pp0)+"\n")
-						r.write("Energy DRAM [J] "+str(energy_pp0)+"\n")
-						r.write("Power DRAM [W] "+str(power_pp0)+"\n")
+						r.write("Energy DRAM [J] "+str(energy_dram)+"\n")
+						r.write("Power DRAM [W] "+str(power_dram)+"\n")
 						r.write("L2 request rate "+" | ".join(l2_req_rate)+"\n")
 						r.write("L2 miss rate "+" | ".join(l2_miss_rate)+"\n")
 						r.write("L2 miss ratio "+" | ".join(l2_miss_ratio)+"\n")
