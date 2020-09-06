@@ -11,16 +11,11 @@ f = open(f)
 r = open(report, "a")
 
 bench = namefile.split("/")[-1]
-bench = bench[:bench.rfind(".")]
-t=0
-co = bench[bench.rfind("-pc-")+4:bench.find("-lc-")]
-t+=int(co)
-co = bench[bench.rfind("-lc-")+4:bench.find("-f-")]
-t+=int(co)
-bench = bench[:bench.find("-f-")] + "-t-" + str(t) + bench[bench.rfind("-f-"):] + "\n"
+bench = bench[:bench.rfind(".")]+"\n"
 r.write(bench)
 
-first_line=""
+execution_time=""
+core_list=""
 runtime="| "
 runtime_unhalted="| "
 clock="| "
@@ -159,14 +154,17 @@ for l in f.readlines():
 					l3_miss_ratio=l3_miss_ratio+l[i].strip()+" | "
 				else:
 					l3_miss_ratio=l3_miss_ratio+"- | "
-	elif "Core 0" in l and first_line == "":
-		first_line="\t| "
+	elif "Core 0" in l and core_list == "":
+		core_list="\t| "
 		l=l.strip("|").strip().split("|")
 		for i in range(2, len(l)):
-			first_line=first_line+" | "+l[i].strip()
-		first_line=first_line+" |"
+			core_list=core_list+" | "+l[i].strip()
+		core_list=core_list+" |"
+	elif "Time in seconds" in l:
+		execution_time+=l.split("=")[1].strip()
         
-r.write(first_line+"\n")
+r.write("Execution time [s] "+execution_time+"\n")
+r.write(core_list+"\n")
 r.write("Runtime [s] "+runtime+"\n")
 r.write("Runtime unhalted [s] "+runtime_unhalted+"\n")
 r.write("Clock [MHz] "+clock+"\n")
@@ -187,3 +185,4 @@ r.write("L3 miss rate "+l3_miss_rate+"\n");
 r.write("L3 miss ratio "+l3_miss_ratio+"\n\n");
 
 r.close()
+

@@ -22,11 +22,12 @@ CORES="0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38"	#cores of socket 
 
 #LIKWID group events
 LIKWID_G="MONTI"
+MONTI_METRICS="execution_time runtime runtime_unhalted clock uncore_clock cpi temperature energy power energy_pp0 power_pp0 energy_dram power_dram l2_req_rate l2_miss_rate l2_miss_ratio l3_req_rate l3_miss_rate l3_miss_ratio"
 
 #FOLDER CONTAINING OUTPUT OF THE EXECUTION
 FOLDER="likwid-output"
 CSV_AVG_RUN_FOLDER="likwid-output/avg_run"
-CSV_AVG_THREAD_RUN_FOLDER="likwid-output/avg_thread_run"
+PLOT_FOLDER="likwid-output/plot"
 
 #SPLASH
 APPS_SPLASH3="../splash3/codes/apps"
@@ -42,11 +43,13 @@ GREP_RADIOSITY="Elem(hierarchical)/Elem(uniform)"
 
 #NPB_OMP
 APPS_NPB="../NPB3.4.1/NPB3.4-OMP/bin"
-BENCHS_NPB="is.A.x cg.A.x ft.A.x mg.A.x"
+BENCHS_NPB="lu.A.x ua.A.x"
 #bt.A.x 
 #ep.A.x sp.A.x
 #lu.A.x ua.A.x
-BENCHS_NAME_NPB="is.A.x cg.A.x ft.A.x mg.A.x"
+#is.A.x cg.A.x ft.A.x mg.A.x
+BENCHS_NAME_NPB="lu.A.x ua.A.x"
+BENCHS_NAME_NPB_ALL="is.A.x cg.A.x ft.A.x mg.A.x bt.A.x ep.A.x sp.A.x lu.A.x ua.A.x"
 
 GREP_bt_A_x="Verification Successful"
 GREP_cg_A_x="VERIFICATION SUCCESSFUL"

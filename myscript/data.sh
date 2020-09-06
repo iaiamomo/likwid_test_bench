@@ -11,13 +11,6 @@ else
 	mkdir $CSV_AVG_RUN_FOLDER
 fi
 
-if [ -d $CSV_AVG_THREAD_RUN_FOLDER ]; then
-	rm -rf $CSV_AVG_THREAD_RUN_FOLDER
-	mkdir $CSV_AVG_THREAD_RUN_FOLDER
-else
-	mkdir $CSV_AVG_THREAD_RUN_FOLDER
-fi
-
 for g in $LIKWID_G
 do
 	G=./$FOLDER/"${g,,}".txt
