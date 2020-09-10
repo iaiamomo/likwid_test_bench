@@ -2,7 +2,7 @@
 
 source config.sh
 
-if [ -d $PLOT_FOLDER ]; then
+if [ ! -d $PLOT_FOLDER ]; then
 	mkdir $PLOT_FOLDER
 fi
 

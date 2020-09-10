@@ -1,3 +1,6 @@
+import matplotlib
+matplotlib.use('Agg')
+
 import sys
 import csv
 import numpy as np 
@@ -33,7 +36,7 @@ tot_threads = tot_cores*2
 
 frequencies = ["2201000", "2200000", "2100000", "2000000", "1900000", "1800000", "1700000", "1600000", "1500000", "1400000", "1300000", "1200000", "1100000", "1000000"]
 
-bench = ["cg.A.x", "ft.A.x", "is.A.x", "mg.A.x"]
+bench = ["bt.A.x", "cg.A.x", "ep.A.x", "ft.A.x", "is.A.x", "lu.A.x", "mg.A.x", "sp.A.x", "ua.A.x"]
 
 d_avg = "./likwid-output/avg_run/monti/"
 
